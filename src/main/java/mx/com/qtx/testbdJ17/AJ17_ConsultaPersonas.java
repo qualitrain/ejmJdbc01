@@ -15,6 +15,7 @@ public class AJ17_ConsultaPersonas {
 		 
 		 try {
 		 	GestorBD_J17 gestorBD = new GestorBD_J17("mysql","ejemplosJDBC");
+//		 	GestorBD_J17 gestorBD = new GestorBD_J17("sqlserver","ejemplosJDBC");
 		    GrupoPersonas unGrupoPersonas = gestorBD.recuperarPersonasTodas();
 		    unGrupoPersonas.mostrar();
 		    
