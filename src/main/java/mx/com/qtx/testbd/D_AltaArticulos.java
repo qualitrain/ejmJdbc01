@@ -1,0 +1,38 @@
+package mx.com.qtx.testbd;
+
+import java.sql.SQLException;
+import java.util.HashMap;
+
+import mx.com.qtx.entidades.Articulo;
+import mx.com.qtx.persistencia.GestorBD;
+
+public class D_AltaArticulos {
+
+	public static void main(String[] args) {
+		// Ejemplo que muestra la INSERCION de un renglon en el DBMS.
+		// Los metodos de atencion para el estudiante son: 
+		// GestorBD.insertarArticulo() que usa el metodo executeUpdate de la clase Statement
+		
+		Articulo nuevoArticulo = new Articulo("D-EFR-34X","Repuesto carburador Ford Maverick 77-81",562.5f,845.34f);
+		try {
+		 	GestorBD gestorBD = new GestorBD("mysql","ejemplosJDBC");
+		 	
+			HashMap <String,Articulo> listaArticulos = gestorBD.recuperarArticulosTodos();
+			System.out.println("============================= Valores antes de insercion ================================");
+			for(Articulo art:listaArticulos.values())
+				System.out.println(art);
+
+			gestorBD.insertarArticulo(nuevoArticulo);
+			
+			listaArticulos = gestorBD.recuperarArticulosTodos();
+			System.out.println("============================= Valores DESPUES de insercion ================================");
+			for(Articulo art:listaArticulos.values())
+				System.out.println(art);
+		}
+		catch(SQLException ex){
+			GestorBD.mostrarSQLException(ex);
+		}
+
+	}
+
+}

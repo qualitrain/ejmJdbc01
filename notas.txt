@@ -1,0 +1,10 @@
+Prelimares
+A. Instalar SQL Editor 1.4.0 -2024- desde el Eclipse Marketplace
+A.1 Instalar y aceptar condiciones
+A.2 Reiniciar Eclipse
+
+
+1. Crear proyecto maven simple
+1.1 Agregar configuración de Java 17+
+
+2. Agregar contenidos del proyecto (clases, scripts, etc.)

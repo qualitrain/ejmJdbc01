@@ -1,0 +1,56 @@
+# Eclipse
+.classpath
+.project
+.settings/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Maven
+target/
+mvnw
+mvnw.cmd
+.mvn/
+
+# Spring Tool Suite (STS)
+.springBeans
+.metadata/
+bin/
+tmp/
+tmp/**/*
+tmp/*
+*.tmp
+*.bak
+*.swp
+*~
+.antlr/
+classes/
+*.jar
+*.war
+*.ear
+
+# Logs
+*.log
+
+# Bytecode
+*.class
+
+# Package Files
+*.jar
+*.war
+*.ear
+
+# Local configuration file (Spring Boot)
+application*.properties
+
+# Dependency directories
+!lib/
+
+# Mac OS
+.DS_Store
+
+# Windows
+Thumbs.db

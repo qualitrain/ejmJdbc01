@@ -1,0 +1,9 @@
+USE `ejemplosjdbc`;
+DELIMITER $$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `calcula_vtasXvendedor`(IN id_persona INT, OUT resultado INT)
+BEGIN
+	SELECT SUM(CANTIDAD*PRECIO_UNITARIO) INTO RESULTADO
+	FROM DETALLE_VENTA, VENTA
+	WHERE ID_PERSONA_VENDEDOR = id_persona;
+END

@@ -1,0 +1,11 @@
+USE `ejemplosjdbc`;
+DROP procedure IF EXISTS `CUENTA_ARTICULOS`;
+
+DELIMITER $$
+USE `ejemplosjdbc`$$
+CREATE PROCEDURE `CUENTA_ARTICULOS` (OUT resultado INT)
+BEGIN
+	SELECT COUNT(*) INTO resultado FROM articulo;
+END$$
+
+DELIMITER ;
