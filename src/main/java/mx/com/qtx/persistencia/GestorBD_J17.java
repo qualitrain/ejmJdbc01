@@ -145,11 +145,16 @@ public class GestorBD_J17 {
 			    			+ this.nombreServidorBD
 			    			+ ":"
 			    			+ this.puertoBD
-			    			+ ";databaseName="
-			    			+ this.nombreBD
-			    			+ ";integratedSecurity=true;";
+			    			+ ";"
+			    			+ "databaseName=" + this.nombreBD
+			    			+ ";"
+			    			+ "encrypt=true"
+			    			+ ";"
+			    			+ "trustServerCertificate=true" 
+			    			+ ";";
 
-			    	return DriverManager.getConnection(url);
+			    	System.out.println(url);
+			    	return DriverManager.getConnection(url,"sa","el3f4ant3R*sa");
 			    	
 			    default:
 			    	return null;
