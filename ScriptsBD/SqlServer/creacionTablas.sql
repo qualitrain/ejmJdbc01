@@ -1,0 +1,207 @@
+USE [master]
+GO
+
+/****** Object:  Database [ejemplosjdbc]    Script Date: 25/04/2024 05:46:34 p. m. ******/
+CREATE DATABASE [ejemplosjdbc]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'ejemplosjdbc', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\ejemplosjdbc.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
+ LOG ON 
+( NAME = N'ejemplosjdbc_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\ejemplosjdbc_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
+ WITH CATALOG_COLLATION = DATABASE_DEFAULT
+GO
+
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [ejemplosjdbc].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+
+ALTER DATABASE [ejemplosjdbc] SET ANSI_NULL_DEFAULT OFF 
+GO
+
+ALTER DATABASE [ejemplosjdbc] SET ANSI_NULLS OFF 
+GO
+
+ALTER DATABASE [ejemplosjdbc] SET ANSI_PADDING OFF 
+GO
+
+ALTER DATABASE [ejemplosjdbc] SET ANSI_WARNINGS OFF 
+GO
+
+ALTER DATABASE [ejemplosjdbc] SET ARITHABORT OFF 
+GO
+
+ALTER DATABASE [ejemplosjdbc] SET AUTO_CLOSE OFF 
+GO
+
+ALTER DATABASE [ejemplosjdbc] SET AUTO_SHRINK OFF 
+GO
+
+ALTER DATABASE [ejemplosjdbc] SET AUTO_UPDATE_STATISTICS ON 
+GO
+
+ALTER DATABASE [ejemplosjdbc] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+
+ALTER DATABASE [ejemplosjdbc] SET CURSOR_DEFAULT  GLOBAL 
+GO
+
+ALTER DATABASE [ejemplosjdbc] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+
+ALTER DATABASE [ejemplosjdbc] SET NUMERIC_ROUNDABORT OFF 
+GO
+
+ALTER DATABASE [ejemplosjdbc] SET QUOTED_IDENTIFIER OFF 
+GO
+
+ALTER DATABASE [ejemplosjdbc] SET RECURSIVE_TRIGGERS OFF 
+GO
+
+ALTER DATABASE [ejemplosjdbc] SET  DISABLE_BROKER 
+GO
+
+ALTER DATABASE [ejemplosjdbc] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+
+ALTER DATABASE [ejemplosjdbc] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+
+ALTER DATABASE [ejemplosjdbc] SET TRUSTWORTHY OFF 
+GO
+
+ALTER DATABASE [ejemplosjdbc] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+
+ALTER DATABASE [ejemplosjdbc] SET PARAMETERIZATION SIMPLE 
+GO
+
+ALTER DATABASE [ejemplosjdbc] SET READ_COMMITTED_SNAPSHOT OFF 
+GO
+
+ALTER DATABASE [ejemplosjdbc] SET HONOR_BROKER_PRIORITY OFF 
+GO
+
+ALTER DATABASE [ejemplosjdbc] SET RECOVERY FULL 
+GO
+
+ALTER DATABASE [ejemplosjdbc] SET  MULTI_USER 
+GO
+
+ALTER DATABASE [ejemplosjdbc] SET PAGE_VERIFY CHECKSUM  
+GO
+
+ALTER DATABASE [ejemplosjdbc] SET DB_CHAINING OFF 
+GO
+
+ALTER DATABASE [ejemplosjdbc] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+
+ALTER DATABASE [ejemplosjdbc] SET TARGET_RECOVERY_TIME = 60 SECONDS 
+GO
+
+ALTER DATABASE [ejemplosjdbc] SET DELAYED_DURABILITY = DISABLED 
+GO
+
+ALTER DATABASE [ejemplosjdbc] SET ACCELERATED_DATABASE_RECOVERY = OFF  
+GO
+
+ALTER DATABASE [ejemplosjdbc] SET QUERY_STORE = OFF
+GO
+
+ALTER DATABASE [ejemplosjdbc] SET  READ_WRITE 
+GO
+
+USE [ejemplosjdbc]
+GO
+
+/****** Object:  Table [dbo].[articulo]    Script Date: 25/04/2024 05:48:16 p. m. ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+CREATE TABLE [dbo].[articulo](
+	[cve_articulo] [varchar](15) NOT NULL,
+	[descripcion] [varchar](40) NOT NULL,
+	[costo_prov_1] [money] NULL,
+	[precio_lista] [money] NULL,
+ CONSTRAINT [PK_articulo] PRIMARY KEY CLUSTERED 
+(
+	[cve_articulo] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+USE [ejemplosjdbc]
+GO
+
+/****** Object:  Table [dbo].[persona]    Script Date: 25/04/2024 05:50:42 p. m. ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[persona](
+	[id_persona] [int] NOT NULL,
+	[nombre] [varchar](40) NOT NULL,
+	[direccion] [varchar](45) NULL,
+	[fecha_nacimiento] [date] NULL,
+ CONSTRAINT [PK_persona] PRIMARY KEY CLUSTERED 
+(
+	[id_persona] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+USE [ejemplosjdbc]
+GO
+
+/****** Object:  Table [dbo].[venta]    Script Date: 25/04/2024 05:50:59 p. m. ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[venta](
+	[num_venta] [int] IDENTITY(1,1) NOT NULL,
+	[fecha_venta] [date] NOT NULL,
+	[id_persona_cte] [int] NOT NULL,
+	[id_persona_vendedor] [int] NULL,
+ CONSTRAINT [PK_venta] PRIMARY KEY CLUSTERED 
+(
+	[num_venta] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+USE [ejemplosjdbc]
+GO
+
+/****** Object:  Table [dbo].[detalle_venta]    Script Date: 25/04/2024 05:51:12 p. m. ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[detalle_venta](
+	[num_venta] [int] NOT NULL,
+	[num_detalle] [int] NOT NULL,
+	[cantidad] [int] NOT NULL,
+	[cve_articulo] [varchar](15) NOT NULL,
+	[precio_unitario] [money] NULL,
+ CONSTRAINT [PK_detalle_venta] PRIMARY KEY CLUSTERED 
+(
+	[num_venta] ASC,
+	[num_detalle] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+

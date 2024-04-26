@@ -1,14 +1,8 @@
-/*
-SQLyog - Free MySQL GUI v5.0
-Host - 5.0.22-community-nt : Database - ejemplosjdbc
-*********************************************************************
-Server version : 5.0.22-community-nt
-*/
-
 
 /*Data for the table `articulo` */
+use ejemplosjdbc;
 
-insert into `articulo` values 
+insert into ejemplosjdbc.dbo.articulo values 
 
 ('A-23','Espejo lateral derecho VW Pointer 2003-2',210.9,455.35),
 
@@ -28,13 +22,13 @@ insert into `articulo` values
 
 /*Data for the table `detalle_venta` */
 
-insert into `detalle_venta` values 
+insert into ejemplosjdbc.dbo.detalle_venta values 
 
-(-1,1,5,'A-23',455.35),
+(1,1,5,'A-23',455.35),
 
-(-1,2,5,'A-24',520.45),
+(1,2,5,'A-24',520.45),
 
-(-1,3,8,'X-1',26.25),
+(1,3,8,'X-1',26.25),
 
 (6,1,5,'A-23',455.35),
 
@@ -390,21 +384,27 @@ insert into `detalle_venta` values
 
 /*Data for the table `persona` */
 
-insert into `persona` values 
+insert into ejemplosjdbc.dbo.persona values 
 
-(1,'Alejandro Ramírez De la Huerta','Av. Insurgentes Sur 456, col. Roma','1970-09-11'),
+(1,'Jorge Ramírez De la Huerta','Av. Insurgentes Sur 456, col. Roma','1980-09-11'),
 
-(2,'Jorge Fernández Menéndez','Salvador Díaz Miron 456, col. Del Valle','1954-12-31'),
+(2,'Rafael Fernández Menéndez','Salvador Díaz Miron 456, col. Del Valle','1955-12-31'),
 
-(3,'Maricela de la Fuente Pérez','Margaritas 45, col. Villa de la Rueda','1980-02-23'),
+(3,'Olga de la Fuente Pérez','Margaritas 45, col. Villa de la Rueda','1987-12-21'),
 
-(4,'MIguel Montes De la Paz','Benito Juárez 567 int 401, col. Héroes de Cha','1977-11-22'),
+(6,'Alejandro Ramírez De la Huerta','Av. Insurgentes Sur 456, col. Roma','1970-09-11'),
+
+(7,'Jorge Fernández Menéndez','Salvador Díaz Miron 456, col. Del Valle','1954-12-31'),
+
+(8,'Maricela de la Fuente Pérez','Margaritas 45, col. Villa de la Rueda','1980-02-23'),
+
+(4,'Miguel Montes De la Paz','Benito Juárez 567 int 401, col. Héroes de Cha','1977-11-22'),
 
 (5,'Brenda Berenice Torres Márquez','Av. Independencia 45, col. Centro','1983-04-07');
 
 /*Data for the table `venta` */
-
-insert into `venta` values 
+SET IDENTITY_INSERT ejemplosjdbc.dbo.venta ON;
+insert into ejemplosjdbc.dbo.venta (num_venta, fecha_venta, id_persona_cte, id_persona_vendedor) values 
 
 (1,'2012-07-26',2,1),
 
@@ -511,3 +511,4 @@ insert into `venta` values
 (52,'2012-07-27',2,1),
 
 (53,'2012-07-27',2,1);
+SET IDENTITY_INSERT ejemplosjdbc.dbo.venta OFF;

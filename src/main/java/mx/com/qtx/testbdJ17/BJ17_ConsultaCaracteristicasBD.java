@@ -10,7 +10,7 @@ public class BJ17_ConsultaCaracteristicasBD {
 		// Ejemplo que muestra las caracteristicas soportadas
 		// por el driver JDBC a traves del uso de la clase DatabaseMetaData
 		 try {
-			 	GestorBD_J17 gestorBD = new GestorBD_J17("mysql","ejemplosJDBC");
+			 	GestorBD_J17 gestorBD = new GestorBD_J17(Config.DBMS,"ejemplosjdbc");
 			 	gestorBD.mostrarCaracteristicasBD();
 		 }
 		 catch (SQLException e) {

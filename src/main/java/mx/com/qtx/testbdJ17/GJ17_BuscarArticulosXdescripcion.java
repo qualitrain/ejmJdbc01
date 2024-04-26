@@ -13,7 +13,7 @@ public class GJ17_BuscarArticulosXdescripcion {
 	
 		String patronDescripcion = "%ford%";
 		try{
-			GestorBD_J17 gestorBD = new GestorBD_J17("mysql","ejemplosJDBC");
+		 	GestorBD_J17 gestorBD = new GestorBD_J17(Config.DBMS,"ejemplosjdbc");
 		 	
 			System.out.println("============================= Valores UNIVERSO de busqueda ================================");
 			HashMap <String,Articulo> listaArticulos = gestorBD.recuperarArticulosTodos();

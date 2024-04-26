@@ -15,7 +15,7 @@ public class FJ17_BorrarArticulos {
 		// la clase Statement para llevar a cabo la eliminacion.
 		//
 		try {
-			GestorBD_J17 gestorBD = new GestorBD_J17("mysql","ejemplosJDBC");
+		 	GestorBD_J17 gestorBD = new GestorBD_J17(Config.DBMS,"ejemplosjdbc");
 		 	
 			Articulo articulo = gestorBD.recuperarArticuloXid("D-EFR-34X");
 			System.out.println("============================= Valores antes de borrar ================================");

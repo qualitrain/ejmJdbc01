@@ -13,7 +13,7 @@ public class HJ17_RegistrarVenta_NOTRANSACC {
 		// Y que ademas hace uso de indices auto-generados por la base de datos
 		
 		try{
-			GestorBD_J17 gestorBD = new GestorBD_J17("mysql","ejemplosJDBC");
+		 	GestorBD_J17 gestorBD = new GestorBD_J17(Config.DBMS,"ejemplosjdbc");
 		 	
 			Persona unVendedor = gestorBD.recuperarPersonaXid(1);
 			Persona unCliente = gestorBD.recuperarPersonaXid(2);
@@ -31,7 +31,7 @@ public class HJ17_RegistrarVenta_NOTRANSACC {
 			Articulo articulo4 = gestorBD.recuperarArticuloXid("X-2");
 			nuevaVenta.agregarDetalle(4, 6, articulo4,articulo4.getPrecioLista());
 
-			Articulo articulo5 = gestorBD.recuperarArticuloXid("D-EFR-34X");
+			Articulo articulo5 = gestorBD.recuperarArticuloXid("DR-57");
 			nuevaVenta.agregarDetalle(5, 4, articulo5,articulo5.getPrecioLista());
 
 			int numVenta = gestorBD.insertarVentaNoTransaccional(nuevaVenta);

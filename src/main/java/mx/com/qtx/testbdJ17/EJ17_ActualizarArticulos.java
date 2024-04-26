@@ -15,7 +15,7 @@ public class EJ17_ActualizarArticulos {
 		// la actualizacion.
 		//
 		try {
-			GestorBD_J17 gestorBD = new GestorBD_J17("mysql","ejemplosJDBC");
+		 	GestorBD_J17 gestorBD = new GestorBD_J17(Config.DBMS,"ejemplosjdbc");
 		 	
 			Articulo articulo = gestorBD.recuperarArticuloXid("X-1");
 			System.out.println("============================= Valores antes de actualizacion ================================");

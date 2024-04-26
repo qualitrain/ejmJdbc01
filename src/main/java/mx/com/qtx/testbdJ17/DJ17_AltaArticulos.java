@@ -15,7 +15,7 @@ public class DJ17_AltaArticulos {
 		
 		Articulo nuevoArticulo = new Articulo("D-EFR-34X","Repuesto carburador Ford Maverick 77-81",562.5f,845.34f);
 		try {
-			GestorBD_J17 gestorBD = new GestorBD_J17("mysql","ejemplosJDBC");
+		 	GestorBD_J17 gestorBD = new GestorBD_J17(Config.DBMS,"ejemplosjdbc");
 		 	
 			HashMap <String,Articulo> listaArticulos = gestorBD.recuperarArticulosTodos();
 			System.out.println("============================= Valores antes de insercion ================================");

@@ -18,15 +18,17 @@ public class CJ17_ActualizaPrecios {
 		// Este ejemplo combina la lectura de un grupo de renglones con su actualizacion
 
 		try {
-			GestorBD_J17 gestorBD = new GestorBD_J17("mysql","ejemplosJDBC");
+		 	GestorBD_J17 gestorBD = new GestorBD_J17(Config.DBMS,"ejemplosjdbc");
 		 	
 			HashMap <String,Articulo> listaArticulos = gestorBD.recuperarArticulosTodos();
+			System.out.println("Hay " + listaArticulos.size() + " articulos ");
+			
 			
 			System.out.println("==== Valores antes de factorizar ====");
 			for(Articulo art:listaArticulos.values())
 				System.out.println(art);
 			
-			float FACTOR_INCREMENTO = 1.1f;
+			float FACTOR_INCREMENTO = 1.01f;
 			
 			gestorBD.factorizarPrecioArticulos(FACTOR_INCREMENTO);
 			listaArticulos = gestorBD.recuperarArticulosTodos();

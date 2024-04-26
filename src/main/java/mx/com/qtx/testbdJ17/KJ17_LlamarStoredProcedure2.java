@@ -8,7 +8,7 @@ import mx.com.qtx.persistencia.GestorBD_J17;
 public class KJ17_LlamarStoredProcedure2 {
 	public static void main(String[] args) {
 		 try {
-				GestorBD_J17 gestorBD = new GestorBD_J17("mysql","ejemplosJDBC");
+			 	GestorBD_J17 gestorBD = new GestorBD_J17(Config.DBMS,"ejemplosjdbc");
 			 	
 			 	int numVendedor=1;
 			 	long vtasAcumuladas = gestorBD.recuperarImporteAcumuladoVtasxVendedor(numVendedor);

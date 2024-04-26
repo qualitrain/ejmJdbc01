@@ -14,8 +14,7 @@ public class AJ17_ConsultaPersonas {
 		// Y de la lectura del resultado a partir del objeto ResultSet
 		 
 		 try {
-//		 	GestorBD_J17 gestorBD = new GestorBD_J17("mysql","ejemplosJDBC");
-		 	GestorBD_J17 gestorBD = new GestorBD_J17("sqlserver","ejemplosjdbc");
+		 	GestorBD_J17 gestorBD = new GestorBD_J17(Config.DBMS,"ejemplosjdbc");
 		    GrupoPersonas unGrupoPersonas = gestorBD.recuperarPersonasTodas();
 		    unGrupoPersonas.mostrar();
 		    

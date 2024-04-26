@@ -10,6 +10,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Types;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -196,43 +197,77 @@ public class GestorBD_J17 {
 				if (dbMetaData.supportsResultSetType(ResultSet.TYPE_FORWARD_ONLY)) {
 		              System.out.println("Tipo de ResultSet Soportado: TYPE_FORWARD_ONLY");
 				}
+				else
+		              System.out.println("Tipo de ResultSet NO Soportado: TYPE_FORWARD_ONLY");
+					
 				if (dbMetaData.supportsResultSetType(ResultSet.TYPE_SCROLL_INSENSITIVE)) {
 		             System.out.println("Tipo de ResultSet Soportado: TYPE_SCROLL_INSENSITIVE");
 				}
+				else
+		              System.out.println("Tipo de ResultSet NO Soportado: TYPE_SCROLL_INSENSITIVE");
+					
 				if (dbMetaData.supportsResultSetType(ResultSet.TYPE_SCROLL_SENSITIVE)) {
 		             System.out.println("Tipo de ResultSet Soportado: TYPE_SCROLL_SENSITIVE");
 				} 
-
+				else
+		              System.out.println("Tipo de ResultSet NO Soportado: TYPE_SCROLL_SENSITIVE");
+					
 				if(dbMetaData.supportsResultSetConcurrency(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY) ){
 		             System.out.println("Concurrencia soportada: TYPE_SCROLL_INSENSITIVE, CONCUR_READ_ONLY");
 				}
+				else
+		             System.out.println("Concurrencia NO soportada: TYPE_SCROLL_INSENSITIVE, CONCUR_READ_ONLY");
+					
 				if(dbMetaData.supportsResultSetConcurrency(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE) ){
 		             System.out.println("Concurrencia soportada: TYPE_SCROLL_INSENSITIVE, CONCUR_UPDATABLE");
 				}
+				else
+		             System.out.println("Concurrencia NO soportada: TYPE_SCROLL_INSENSITIVE, CONCUR_UPDATABLE");
+					
 				if(dbMetaData.supportsResultSetHoldability(ResultSet.HOLD_CURSORS_OVER_COMMIT)){
 		             System.out.println("Apertura/cierre de cursores soportada: HOLD_CURSORS_OVER_COMMIT");
 				}
+				else
+		             System.out.println("Apertura/cierre de cursores NO soportada: HOLD_CURSORS_OVER_COMMIT");
+					
 				if(dbMetaData.supportsResultSetHoldability(ResultSet.CLOSE_CURSORS_AT_COMMIT)){
 		             System.out.println("Apertura/cierre de cursores soportada: CLOSE_CURSORS_AT_COMMIT");
 				}
+				else
+		             System.out.println("Apertura/cierre de cursores NO soportada: CLOSE_CURSORS_AT_COMMIT");
 				
 				System.out.println("========== Sobre Transaccionalidad =============");
 				
 				if(dbMetaData.supportsTransactionIsolationLevel(Connection.TRANSACTION_NONE)){
 					System.out.println("Se soporta en nivel de aislamiento trasaccional TRANSACTION_NONE");
 				}
+				else
+					System.out.println("NO se soporta en nivel de aislamiento trasaccional TRANSACTION_NONE");
+					
 				if(dbMetaData.supportsTransactionIsolationLevel(Connection.TRANSACTION_READ_COMMITTED)){
 					System.out.println("Se soporta en nivel de aislamiento trasaccional TRANSACTION_READ_COMMITTED");
 				}
+				else
+					System.out.println("NO se soporta en nivel de aislamiento trasaccional TRANSACTION_READ_COMMITTED");
+					
 				if(dbMetaData.supportsTransactionIsolationLevel(Connection.TRANSACTION_READ_UNCOMMITTED)){
 					System.out.println("Se soporta en nivel de aislamiento trasaccional TRANSACTION_READ_UNCOMMITTED");
 				}
+				else
+					System.out.println("NO se soporta en nivel de aislamiento trasaccional TRANSACTION_READ_UNCOMMITTED");
+					
 				if(dbMetaData.supportsTransactionIsolationLevel(Connection.TRANSACTION_REPEATABLE_READ)){
 					System.out.println("Se soporta en nivel de aislamiento trasaccional TRANSACTION_REPEATABLE_READ");
 				}
+				else
+					System.out.println("NO se soporta en nivel de aislamiento trasaccional TRANSACTION_REPEATABLE_READ");
+					
 				if(dbMetaData.supportsTransactionIsolationLevel(Connection.TRANSACTION_SERIALIZABLE)){
 					System.out.println("Se soporta en nivel de aislamiento trasaccional TRANSACTION_SERIALIZABLE");
 				}
+				else
+					System.out.println("NO se soporta en nivel de aislamiento trasaccional TRANSACTION_SERIALIZABLE");
+					
 			}
 		}
 
@@ -406,24 +441,18 @@ public class GestorBD_J17 {
 			
 			try (Connection conexionBD = this.getConexionBD()){
 				try (Statement stmtInsercionVenta = conexionBD.createStatement()){
-					String strInsertVenta="Insert into venta set " +
-										"fecha_venta =  curdate()," + // La fecha la obtiene del servidor de base de datos usando una funcion SQL
-										"id_persona_cte = " + nuevaVenta.getCliente().getIdPersona() + "," +
-										"id_persona_vendedor = " + nuevaVenta.getVendedor().getIdPersona();
-					
+					String fecHoyFmtBD = getFechaHoyFormatoSQL();
+					String strInsertVenta = construirInsertSQL_Venta(nuevaVenta, fecHoyFmtBD);
+					System.out.println(strInsertVenta);
 					stmtInsercionVenta.executeUpdate(strInsertVenta,Statement.RETURN_GENERATED_KEYS ); // Se requiere para pode recuperar los valores de las llaves auto-generadas
 					try (ResultSet rsLlavesAutoGeneradas = stmtInsercionVenta.getGeneratedKeys()){
-						this.mostrarLlavesAutoGeneradas(rsLlavesAutoGeneradas);
-						numVenta = this.getValorLlaveAutoGenerada(rsLlavesAutoGeneradas, 1);
+						List<String> lstLlavesGeneradas = this.getLlavesAutoGeneradas(rsLlavesAutoGeneradas);
+						numVenta = Integer.parseInt(lstLlavesGeneradas.get(0));
 					}
 					
 					for(DetalleVenta detVta: nuevaVenta.getDetallesVta().values()){
-						String strInsertDetalleVenta="Insert into detalle_venta set"+
-													" num_venta ="+ numVenta +"," +
-													"num_detalle =" + detVta.getNumDetalle() + "," +
-													"cantidad =" + detVta.getCantidad() + "," +
-													"cve_articulo ='" + detVta.getArticuloVendido().getCveArticulo() + "'," +
-													"precio_unitario ="+ detVta.getArticuloVendido().getPrecioLista();
+						String strInsertDetalleVenta = construirInsertSQL_DetalleVenta(numVenta, detVta);
+						System.out.println(strInsertDetalleVenta);
 						stmtInsercionVenta.executeUpdate(strInsertDetalleVenta);			
 					}
 				}
@@ -431,14 +460,49 @@ public class GestorBD_J17 {
 			return numVenta;
 		}
 
-		private void mostrarLlavesAutoGeneradas(ResultSet rsLlavesAutoGeneradas) 
+		private String construirInsertSQL_DetalleVenta(int numVenta, DetalleVenta detVta) {
+			String strInsertDetalleVenta="Insert into detalle_venta (num_venta, num_detalle, cantidad, cve_articulo, precio_unitario) "
+			        + "values ("
+					+       numVenta +"," 
+			        +       detVta.getNumDetalle() + "," 
+					+       detVta.getCantidad() + ", '" 
+			        +       detVta.getArticuloVendido().getCveArticulo() + "'," 
+					+       detVta.getArticuloVendido().getPrecioLista() + ")";
+			return strInsertDetalleVenta;
+		}
+
+		private String construirInsertSQL_Venta(Venta nuevaVenta, String fecHoyFmtBD) {
+			String strInsertVenta="Insert into venta (fecha_venta, id_persona_cte, id_persona_vendedor) " +
+			                    "values (" +
+								   fecHoyFmtBD + "," +
+								   nuevaVenta.getCliente().getIdPersona() + "," +
+								   nuevaVenta.getVendedor().getIdPersona() + 
+								")";
+			return strInsertVenta;
+		}
+
+		private String getFechaHoyFormatoSQL() {
+			LocalDate fecHoy = LocalDate.now();
+			String fecHoyFmtBD = "'"  
+			                 + fecHoy.getYear() 
+					         + "-" 
+			                 + String.format("%02d", fecHoy.getMonthValue()) 
+			                 + "-" 
+					         + String.format("%02d", fecHoy.getDayOfMonth()) +
+					         "'";
+			return fecHoyFmtBD;
+		}
+
+		private List<String> getLlavesAutoGeneradas(ResultSet rsLlavesAutoGeneradas) 
 				throws SQLException{ //El ResultSet debe haber sido obtenido llamando a Statement.getGeneratedKeys()
+			List<String> lstLlavesGeneradas = new ArrayList<>(); 
 			if (rsLlavesAutoGeneradas.next()) {
 		         ResultSetMetaData rsmd = rsLlavesAutoGeneradas.getMetaData();
 		         int colCount = rsmd.getColumnCount();
 		         do {
 		             for (int i = 1; i <= colCount; i++) {
 		                 String llave = rsLlavesAutoGeneradas.getString(i);
+		                 lstLlavesGeneradas.add(llave);
 		                 System.out.println("la llave autogenerada en la columna " + i + " es " + llave);
 		             }
 		         }
@@ -447,18 +511,9 @@ public class GestorBD_J17 {
 			else {
 		         System.out.println("No hay llaves auto-generadas");
 			}
+			return lstLlavesGeneradas;
 		}
-
-		private int getValorLlaveAutoGenerada(ResultSet rsLlavesAutoGeneradas, int posicion) throws SQLException{ //El ResultSet debe haber sido obtenido llamando a Statement.getGeneratedKeys()
-			rsLlavesAutoGeneradas.beforeFirst();
-			if (rsLlavesAutoGeneradas.next()) {
-				return rsLlavesAutoGeneradas.getInt(posicion);
-			} 
-			else {
-		         return -1;
-			}
-		}
-		
+	
 		public Venta recuperarVentaXid(int numVenta) throws SQLException {
 			Venta venta=null;
 			String SQL = "Select * from venta where num_venta =";
@@ -529,23 +584,18 @@ public class GestorBD_J17 {
 				conexionBD.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED); // Nivel de aislamiento
 				
 				try (Statement stmtInsercionVenta = conexionBD.createStatement()){
-					String strInsertVenta="Insert into venta set " +
-										"fecha_venta =  curdate()," + 
-										"id_persona_cte = " + nuevaVenta.getCliente().getIdPersona() + "," +
-										"id_persona_vendedor = " + nuevaVenta.getVendedor().getIdPersona();
+					String fecHoyFmtBD = getFechaHoyFormatoSQL();
+					String strInsertVenta = construirInsertSQL_Venta(nuevaVenta, fecHoyFmtBD);
+					System.out.println(strInsertVenta);
 					
 					stmtInsercionVenta.executeUpdate(strInsertVenta,Statement.RETURN_GENERATED_KEYS ); 
 					try (ResultSet rsLlavesAutoGeneradas = stmtInsercionVenta.getGeneratedKeys()){
-						numVenta = this.getValorLlaveAutoGenerada(rsLlavesAutoGeneradas,1);
+						numVenta = this.getValorLlaveAutoGenerada(rsLlavesAutoGeneradas);
 					}
 					
 					for(DetalleVenta detVta: nuevaVenta.getDetallesVta().values()){
-						String strInsertDetalleVenta="Insert into detalle_venta set"+
-													" num_venta ="+ numVenta +"," +
-													"num_detalle =" + detVta.getNumDetalle() + "," +
-													"cantidad =" + detVta.getCantidad() + "," +
-													"cve_articulo ='" + detVta.getArticuloVendido().getCveArticulo() + "'," +
-													"precio_unitario ="+ detVta.getArticuloVendido().getPrecioLista();
+						String strInsertDetalleVenta = construirInsertSQL_DetalleVenta(numVenta, detVta);
+						System.out.println(strInsertDetalleVenta);
 						stmtInsercionVenta.executeUpdate(strInsertDetalleVenta);			
 					}
 					conexionBD.commit(); // *** EN ESTE MOMENTO SE ACTUALIZA TODA LA TRANSACCION
@@ -558,6 +608,10 @@ public class GestorBD_J17 {
 				}
 			}
 			return numVenta;
+		}
+
+		private int getValorLlaveAutoGenerada(ResultSet rsLlavesAutoGeneradas) throws NumberFormatException, SQLException {
+			return Integer.parseInt( this.getLlavesAutoGeneradas(rsLlavesAutoGeneradas).get(0));
 		}
 
 		public int recuperarCuantosArticulosHayEnBD() throws SQLException{ //Llama a un stored procedure!!
@@ -660,9 +714,9 @@ public class GestorBD_J17 {
 					for(int i=1;i<=rsMetaDatosCatalogos.getColumnCount();i++){
 						System.out.println("    " + rsMetaDatosCatalogos.getColumnName(i));
 					}
-					
+				}				
+				try (ResultSet rsCatalogos = datosBD.getCatalogs()){
 					System.out.println("\n-Catalogos en la base de datos -");
-					rsCatalogos.beforeFirst();
 					while(rsCatalogos.next()){
 						System.out.println("    " + rsCatalogos.getString("TABLE_CAT"));
 						nRenglones++;

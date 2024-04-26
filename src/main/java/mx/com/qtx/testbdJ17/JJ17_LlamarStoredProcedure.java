@@ -8,7 +8,7 @@ public class JJ17_LlamarStoredProcedure {
 
 	public static void main(String[] args) {
 		 try {
-				GestorBD_J17 gestorBD = new GestorBD_J17("mysql","ejemplosJDBC");
+			 	GestorBD_J17 gestorBD = new GestorBD_J17(Config.DBMS,"ejemplosjdbc");
 			 	
 			 	int cantArticulos = gestorBD.recuperarCuantosArticulosHayEnBD();
 			 	System.out.println("Hay " + cantArticulos + " articulos dados de alta en la base de datos");
