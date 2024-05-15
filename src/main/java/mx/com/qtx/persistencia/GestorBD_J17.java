@@ -130,15 +130,6 @@ public class GestorBD_J17 {
 			    	
 			    	return DriverManager.getConnection(url, propiedadesConexion);
 			    	
-			    case "derby":
-			    	url = "jdbc:" 
-			              + dbms 
-			              + ":" 
-			              + nombreServidorBD 
-			              + ";create=true";
-			    	
-			    	return DriverManager.getConnection(url, propiedadesConexion);
-			    	
 			    case "sqlserver":
 			    	url = "jdbc:"
 			    			+ this.dbms
