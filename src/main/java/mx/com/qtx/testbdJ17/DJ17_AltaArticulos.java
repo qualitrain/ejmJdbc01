@@ -13,7 +13,7 @@ public class DJ17_AltaArticulos {
 		// Los metodos de atencion para el estudiante son: 
 		// GestorBD.insertarArticulo() que usa el metodo executeUpdate de la clase Statement
 		
-		Articulo nuevoArticulo = new Articulo("D-EFR-34X","Repuesto carburador Ford Maverick 77-81",562.5f,845.34f);
+		Articulo nuevoArticulo = new Articulo("D-EFR-34ZZ","Repuesto carburador Ford Maverick 84",562.5f,845.34f);
 		try {
 		 	GestorBD_J17 gestorBD = new GestorBD_J17(Config.DBMS,"ejemplosjdbc");
 		 	

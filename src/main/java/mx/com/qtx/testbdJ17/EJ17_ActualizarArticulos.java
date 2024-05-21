@@ -21,7 +21,7 @@ public class EJ17_ActualizarArticulos {
 			System.out.println("============================= Valores antes de actualizacion ================================");
 			System.out.println(articulo);
 
-			String nuevaDescripcion = "*** "+articulo.getDescripcion()+" ***";
+			String nuevaDescripcion = "+ " + articulo.getDescripcion() + " +";
 			articulo.setDescripcion(nuevaDescripcion);
 			gestorBD.actualizarArticulo(articulo);
 			

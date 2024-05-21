@@ -314,13 +314,18 @@ public class GestorBD_J17 {
 		public int insertarArticulo(Articulo articulo) throws SQLException {
 			int numAfectacionesBD = 0;
 			
+			String SQL_Insert_Articulo = "Insert into articulo "
+					+ "(cve_articulo, descripcion, costo_prov_1, precio_lista) "
+					+ "values ('"
+							+ articulo.getCveArticulo() + "','"
+							+ articulo.getDescripcion() + "',"
+							+ Float.toString(articulo.getCostoProv1()) + ","
+							+ Float.toString(articulo.getPrecioLista()) 
+					+ ")";
+			
 			try (Connection conexionBD = this.getConexionBD()){
 				try (Statement stmt = conexionBD.createStatement()){
-					numAfectacionesBD=stmt.executeUpdate("Insert into articulo values ('"
-															+ articulo.getCveArticulo()+"','"
-															+ articulo.getDescripcion()+"',"
-															+Float.toString(articulo.getCostoProv1())+","
-															+Float.toString(articulo.getPrecioLista())+")");
+					numAfectacionesBD=stmt.executeUpdate(SQL_Insert_Articulo);
 				}
 			}
 			return numAfectacionesBD;
@@ -348,14 +353,16 @@ public class GestorBD_J17 {
 
 		public int actualizarArticulo(Articulo articulo) throws SQLException {
 			int numAfectacionesBD = 0;
+			
+			String SQL_Update_Articulo = "Update articulo set "
+					+ "descripcion ='" + articulo.getDescripcion() + "',"
+					+ "costo_prov_1=" + Float.toString(articulo.getCostoProv1()) + ","
+					+ "precio_lista=" + Float.toString(articulo.getPrecioLista()) 
+					+ " where cve_articulo ='"+articulo.getCveArticulo() + "'";
+			
 			try (Connection conexionBD = this.getConexionBD()){
 				try (Statement stmt = conexionBD.createStatement()){
-					numAfectacionesBD = 
-							stmt.executeUpdate("Update articulo set "
-											+ "descripcion ='" + articulo.getDescripcion() + "',"
-											+ "costo_prov_1=" + Float.toString(articulo.getCostoProv1()) + ","
-											+ "precio_lista=" + Float.toString(articulo.getPrecioLista()) 
-											+ " where cve_articulo ='"+articulo.getCveArticulo() + "'");
+					numAfectacionesBD = stmt.executeUpdate(SQL_Update_Articulo);
 				}
 			}
 			return numAfectacionesBD;
@@ -365,11 +372,14 @@ public class GestorBD_J17 {
 			
 			int numAfectacionesBD = 0;
 			
+			String SQL_Delete_Articulo = 
+					"Delete from articulo "
+				   + "where cve_articulo ='" + articulo.getCveArticulo() + "'";
+			
 			try (Connection conexionBD = this.getConexionBD()){
 				try (Statement stmt = conexionBD.createStatement()) {
 					numAfectacionesBD = 
-							stmt.executeUpdate("Delete from articulo where cve_articulo ='"
-				                               + articulo.getCveArticulo() + "'");
+							stmt.executeUpdate(SQL_Delete_Articulo);
 				}
 			}
 			return numAfectacionesBD;
@@ -392,7 +402,8 @@ public class GestorBD_J17 {
 							String descripcion = rsArticulos.getString("descripcion");
 							float costoProv1 = rsArticulos.getFloat("costo_prov_1");
 							float precioLista = rsArticulos.getFloat("precio_lista");
-							mapArticulos.put(cveArticulo, new Articulo(cveArticulo,descripcion,costoProv1,precioLista));
+							Articulo artI = new Articulo(cveArticulo,descripcion,costoProv1,precioLista);
+							mapArticulos.put(cveArticulo, artI);
 						}
 					}
 				}

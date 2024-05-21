@@ -10,14 +10,14 @@ import mx.com.qtx.persistencia.GestorBD_J17;
 public class FJ17_BorrarArticulos {
 
 	public static void main(String[] args) {
-		// Este ejemplo muestra la eliminacion de un renglo en particular del DBMS.
+		// Este ejemplo muestra la eliminacion de un renglon en particular del DBMS.
 		// Especial atencion a GestorBD.eliminarArticulo, el cual utiliza el metodo executeUpdate de
 		// la clase Statement para llevar a cabo la eliminacion.
 		//
 		try {
 		 	GestorBD_J17 gestorBD = new GestorBD_J17(Config.DBMS,"ejemplosjdbc");
 		 	
-			Articulo articulo = gestorBD.recuperarArticuloXid("D-EFR-34X");
+			Articulo articulo = gestorBD.recuperarArticuloXid("D-EFR-34ZZ");
 			System.out.println("============================= Valores antes de borrar ================================");
 			HashMap <String,Articulo> listaArticulos = gestorBD.recuperarArticulosTodos();
 			for(Articulo art:listaArticulos.values())
