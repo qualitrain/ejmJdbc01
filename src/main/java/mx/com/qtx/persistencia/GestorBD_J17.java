@@ -501,14 +501,14 @@ public class GestorBD_J17 {
 			if (rsLlavesAutoGeneradas.next()) {
 		         ResultSetMetaData rsmd = rsLlavesAutoGeneradas.getMetaData();
 		         int colCount = rsmd.getColumnCount();
-		         do {
+//		         do {
 		             for (int i = 1; i <= colCount; i++) {
 		                 String llave = rsLlavesAutoGeneradas.getString(i);
 		                 lstLlavesGeneradas.add(llave);
 		                 System.out.println("la llave autogenerada en la columna " + i + " es " + llave);
 		             }
-		         }
-		         while (rsLlavesAutoGeneradas.next());
+//		         }
+//		         while (rsLlavesAutoGeneradas.next());
 			} 
 			else {
 		         System.out.println("No hay llaves auto-generadas");
