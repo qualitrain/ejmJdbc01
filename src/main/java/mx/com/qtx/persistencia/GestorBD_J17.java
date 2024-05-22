@@ -500,15 +500,12 @@ public class GestorBD_J17 {
 			List<String> lstLlavesGeneradas = new ArrayList<>(); 
 			if (rsLlavesAutoGeneradas.next()) {
 		         ResultSetMetaData rsmd = rsLlavesAutoGeneradas.getMetaData();
-		         int colCount = rsmd.getColumnCount();
-//		         do {
-		             for (int i = 1; i <= colCount; i++) {
-		                 String llave = rsLlavesAutoGeneradas.getString(i);
-		                 lstLlavesGeneradas.add(llave);
-		                 System.out.println("la llave autogenerada en la columna " + i + " es " + llave);
-		             }
-//		         }
-//		         while (rsLlavesAutoGeneradas.next());
+		         int nLlaves = rsmd.getColumnCount();
+	             for (int i = 1; i <= nLlaves; i++) {
+	                 String llave = rsLlavesAutoGeneradas.getString(i);
+	                 lstLlavesGeneradas.add(llave);
+	                 System.out.println("la llave autogenerada en la columna " + i + " es " + llave);
+	             }
 			} 
 			else {
 		         System.out.println("No hay llaves auto-generadas");
@@ -592,7 +589,7 @@ public class GestorBD_J17 {
 					
 					stmtInsercionVenta.executeUpdate(strInsertVenta,Statement.RETURN_GENERATED_KEYS ); 
 					try (ResultSet rsLlavesAutoGeneradas = stmtInsercionVenta.getGeneratedKeys()){
-						numVenta = this.getValorLlaveAutoGenerada(rsLlavesAutoGeneradas);
+						numVenta = this.getValorNllaveAutoGenerada(rsLlavesAutoGeneradas,0);
 					}
 					
 					for(DetalleVenta detVta: nuevaVenta.getDetallesVta().values()){
@@ -612,8 +609,8 @@ public class GestorBD_J17 {
 			return numVenta;
 		}
 
-		private int getValorLlaveAutoGenerada(ResultSet rsLlavesAutoGeneradas) throws NumberFormatException, SQLException {
-			return Integer.parseInt( this.getLlavesAutoGeneradas(rsLlavesAutoGeneradas).get(0));
+		private int getValorNllaveAutoGenerada(ResultSet rsLlavesAutoGeneradas, int n) throws NumberFormatException, SQLException {
+			return Integer.parseInt( this.getLlavesAutoGeneradas(rsLlavesAutoGeneradas).get(n));
 		}
 
 		public int recuperarCuantosArticulosHayEnBD() throws SQLException{ //Llama a un stored procedure!!
