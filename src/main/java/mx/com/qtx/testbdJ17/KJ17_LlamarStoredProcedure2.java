@@ -3,6 +3,7 @@ package mx.com.qtx.testbdJ17;
 import java.sql.SQLException;
 import java.text.NumberFormat;
 
+import mx.com.qtx.persistencia.Config;
 import mx.com.qtx.persistencia.GestorBD_J17;
 
 public class KJ17_LlamarStoredProcedure2 {

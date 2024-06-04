@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 
 import mx.com.qtx.entidades.Articulo;
+import mx.com.qtx.persistencia.Config;
 import mx.com.qtx.persistencia.GestorBD_J17;
 
 public class DJ17_AltaArticulos {

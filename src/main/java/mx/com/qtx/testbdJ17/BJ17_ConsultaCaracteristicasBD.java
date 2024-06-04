@@ -2,6 +2,7 @@ package mx.com.qtx.testbdJ17;
 
 import java.sql.SQLException;
 
+import mx.com.qtx.persistencia.Config;
 import mx.com.qtx.persistencia.GestorBD_J17;
 
 public class BJ17_ConsultaCaracteristicasBD {

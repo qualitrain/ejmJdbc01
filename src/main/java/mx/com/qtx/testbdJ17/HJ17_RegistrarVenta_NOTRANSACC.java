@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import mx.com.qtx.entidades.Articulo;
 import mx.com.qtx.entidades.Persona;
 import mx.com.qtx.entidades.Venta;
+import mx.com.qtx.persistencia.Config;
 import mx.com.qtx.persistencia.GestorBD_J17;
 
 public class HJ17_RegistrarVenta_NOTRANSACC {

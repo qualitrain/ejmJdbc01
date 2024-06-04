@@ -3,6 +3,7 @@ package mx.com.qtx.testbdJ17;
 import java.sql.SQLException;
 
 import mx.com.qtx.entidades.Articulo;
+import mx.com.qtx.persistencia.Config;
 import mx.com.qtx.persistencia.GestorBD_J17;
 
 public class EJ17_ActualizarArticulos {

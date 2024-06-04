@@ -616,12 +616,11 @@ public class GestorBD_J17 {
 		public int recuperarCuantosArticulosHayEnBD() throws SQLException{ //Llama a un stored procedure!!
 			int numArticulos = 0;
 			
-			String SQL = "{call "
-					+ this.nombreBD
-					+ ".CUENTA_ARTICULOS(?)}"; // Modifique para probar que sucede 
-			                                                        // cuando se invoca un procedimiento inexistente
-           // El nombre del procedimiento debe incluir el nombre de la base de datos -en algunas versiones
-           // de Mysql (5.0)-
+			String SQL = "{call " 
+			    + Config.getNombreStoredProcedure(this.nombreBD, "CUENTA_ARTICULOS(?)")
+                + "}"; // Modifique para probar que sucede 
+			          // cuando se invoca un procedimiento inexistente
+           // La sintaxis del nombre del procedimiento depende del DBMS
 			
 			try (Connection conexionBD = this.getConexionBD()){
 				try (CallableStatement callStmt = conexionBD.prepareCall(SQL)){ 
@@ -643,7 +642,7 @@ public class GestorBD_J17 {
 	//		        callStmt.registerOutParameter(1, Types.INTEGER); //Registra el tipo del parametro OUT 1 por posicion
 			        callStmt.registerOutParameter("resultado", Types.INTEGER); //Registra el tipo del par�metro OUT 1 por nombre
 			        
-			        callStmt.executeQuery(); //Devuelve un ResultSet, que en este caso particular no se usa
+			        callStmt.execute(); //No requerimos de un ResultSet. (en ese caso se usaria executeQuery()
 			        numArticulos = callStmt.getInt(1); // recupera el valor devuelto por el stored procedure
 				}
 		    }
@@ -656,15 +655,15 @@ public class GestorBD_J17 {
 			
 			long importeDeVtas = 0;
 			String SQL = "{call "
-					+ this.nombreBD
-					+ ".calcula_vtasXvendedor(?,?)}";
+							+ Config.getNombreStoredProcedure(this.nombreBD, "calcula_vtasXvendedor(?,?)")
+						+ "}";
 			
 			try (Connection conexionBD = this.getConexionBD()){
 				try( CallableStatement callStmt = conexionBD.prepareCall(SQL)){
 			        callStmt.setInt("id_persona",numVendedor);
 			        callStmt.registerOutParameter("resultado", Types.INTEGER); //Registra el tipo del parametro OUT 1 por nombre
 			        
-			        callStmt.executeQuery(); //Devuelve un ResultSet, que en este caso particular no se usa
+			        callStmt.execute(); //No requerimos resultset
 			        importeDeVtas = callStmt.getInt(2); // recupera el valor devuelto por el stored procedure
 				}
 		    }

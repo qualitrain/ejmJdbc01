@@ -4,6 +4,7 @@ import java.sql.SQLException;
 
 import mx.com.qtx.entidades.GrupoPersonas;
 import mx.com.qtx.entidades.Persona;
+import mx.com.qtx.persistencia.Config;
 import mx.com.qtx.persistencia.GestorBD_J17;
 
 public class AJ17_ConsultaPersonas {
