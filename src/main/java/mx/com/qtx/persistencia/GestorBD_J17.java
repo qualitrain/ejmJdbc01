@@ -214,6 +214,18 @@ public class GestorBD_J17 {
 				}
 				else
 		             System.out.println("Concurrencia NO soportada: TYPE_SCROLL_INSENSITIVE, CONCUR_UPDATABLE");
+				
+				if(dbMetaData.supportsResultSetConcurrency(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY) ){
+		             System.out.println("Concurrencia soportada: TYPE_SCROLL_SENSITIVE, CONCUR_READ_ONLY");
+				}
+				else
+		             System.out.println("Concurrencia NO soportada: TYPE_SCROLL_SENSITIVE, CONCUR_READ_ONLY");
+					
+				if(dbMetaData.supportsResultSetConcurrency(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE) ){
+		             System.out.println("Concurrencia soportada: TYPE_SCROLL_SENSITIVE, CONCUR_UPDATABLE");
+				}
+				else
+		             System.out.println("Concurrencia NO soportada: TYPE_SCROLL_SENSITIVE, CONCUR_UPDATABLE");
 					
 				if(dbMetaData.supportsResultSetHoldability(ResultSet.HOLD_CURSORS_OVER_COMMIT)){
 		             System.out.println("Apertura/cierre de cursores soportada: HOLD_CURSORS_OVER_COMMIT");
