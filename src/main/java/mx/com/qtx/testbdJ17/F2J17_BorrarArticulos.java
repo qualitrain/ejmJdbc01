@@ -1,23 +1,24 @@
-package mx.com.qtx.testbd;
+package mx.com.qtx.testbdJ17;
 
 
 import java.sql.SQLException;
 import java.util.HashMap;
 
 import mx.com.qtx.entidades.Articulo;
-import mx.com.qtx.persistencia.GestorBD;
+import mx.com.qtx.persistencia.Config;
+import mx.com.qtx.persistencia.GestorBD_J17;
 
-public class F_BorrarArticulos {
+public class F2J17_BorrarArticulos {
 
 	public static void main(String[] args) {
-		// Este ejemplo muestra la eliminacion de un renglo en particular del DBMS.
+		// Este ejemplo muestra la eliminacion de un renglon en particular del DBMS.
 		// Especial atencion a GestorBD.eliminarArticulo, el cual utiliza el metodo executeUpdate de
-		// la clase Statement para llevar a cabo la eliminacion.
+		// la clase PreparedStatement para llevar a cabo la eliminacion.
 		//
 		try {
-		 	GestorBD gestorBD = new GestorBD("mysql","ejemplosJDBC");
+		 	GestorBD_J17 gestorBD = new GestorBD_J17(Config.DBMS,"ejemplosjdbc");
 		 	
-			Articulo articulo = gestorBD.recuperarArticuloXid("D-EFR-34X");
+			Articulo articulo = gestorBD.recuperarArticuloXidPstmt("D-EFR-PSTMT");
 			System.out.println("============================= Valores antes de borrar ================================");
 			HashMap <String,Articulo> listaArticulos = gestorBD.recuperarArticulosTodos();
 			for(Articulo art:listaArticulos.values())
@@ -31,7 +32,7 @@ public class F_BorrarArticulos {
 				System.out.println(art);
 		}
 		catch(SQLException ex){
-			GestorBD.mostrarSQLException(ex);
+			GestorBD_J17.mostrarSQLException(ex);
 		}
 
 	}

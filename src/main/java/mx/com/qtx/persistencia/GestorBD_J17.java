@@ -180,6 +180,34 @@ public class GestorBD_J17 {
 			return grupoPersonas;
 		}
 
+		public List<Persona> recuperarPersonasConNombreQueContiene(String parteNombre)throws SQLException {
+
+			final String SQL = "Select * from persona where nombre like ?";
+			
+			List<Persona> grupoPersonas = new ArrayList<>();
+			try (Connection conexionBD = this.getConexionBD()){
+				try (PreparedStatement stmt = conexionBD.prepareStatement(SQL)){
+					stmt.setString(1, "%" + parteNombre + "%");
+					try (ResultSet resultSet = stmt.executeQuery()) {
+			        	int idPersona;
+			        	String nombre;
+			        	String direccion;
+			        	Date fechaNacimiento;
+	
+				        while (resultSet.next()) {
+				        	idPersona = resultSet.getInt("id_persona");
+				        	nombre = resultSet.getString("nombre");
+				        	direccion = resultSet.getString("direccion");
+				        	fechaNacimiento = resultSet.getDate("fecha_nacimiento");
+				        	
+				        	grupoPersonas.add(new Persona(idPersona, nombre, direccion, fechaNacimiento));
+				        }
+					}
+				}
+			}
+			return grupoPersonas;
+		}
+		
 		public void mostrarCaracteristicasBD() throws SQLException{
 			try (Connection conexionBD = this.getConexionBD()){
 				DatabaseMetaData dbMetaData = conexionBD.getMetaData();
@@ -343,6 +371,24 @@ public class GestorBD_J17 {
 			return numAfectacionesBD;
 		}
 
+		public int insertarArticuloPstmt(Articulo articulo) throws SQLException {
+			int numAfectacionesBD = 0;
+			
+			String SQL_Insert_Articulo = "Insert into articulo "
+					+ "(cve_articulo, descripcion, costo_prov_1, precio_lista) values (?,?,?,?)";
+			
+			try (Connection conexionBD = this.getConexionBD()){
+				try (PreparedStatement stmt = conexionBD.prepareStatement(SQL_Insert_Articulo)){
+					stmt.setString(1, articulo.getCveArticulo());
+					stmt.setString(2, articulo.getDescripcion());
+					stmt.setFloat(3, articulo.getCostoProv1());
+					stmt.setFloat(4, articulo.getPrecioLista());
+					numAfectacionesBD=stmt.executeUpdate();
+				}
+			}
+			return numAfectacionesBD;
+		}
+		
 		public Articulo recuperarArticuloXid(String cveArticulo) throws SQLException {
 			
 			Articulo articulo=null;
@@ -363,6 +409,50 @@ public class GestorBD_J17 {
 			return articulo;
 		}
 
+		public Articulo recuperarArticuloXidPstmt(String cveArticulo) throws SQLException {
+			
+			Articulo articulo=null;
+			final String SQL = "Select * from articulo where cve_Articulo = ?";	
+			
+			try (Connection conexionBD = this.getConexionBD()){			
+				try (PreparedStatement stmt = conexionBD.prepareStatement(SQL)){
+					stmt.setString(1, cveArticulo);
+					try (ResultSet resultSet = stmt.executeQuery()){
+							if(resultSet.next()){ // El cursor se avanza para posicionarlo en el renglon leido
+								String descripcion = resultSet.getString("descripcion");
+								float costoProv1 = resultSet.getFloat("costo_prov_1");
+								float precioLista = resultSet.getFloat("precio_lista");
+								articulo=new Articulo(cveArticulo,descripcion,costoProv1,precioLista);
+							}
+					}
+				}
+			}
+			return articulo;
+		}
+		
+		public int actualizarArticuloPstmt(Articulo articulo) throws SQLException {
+			int numAfectacionesBD = 0;
+			
+			String SQL_Update_Articulo = "Update articulo set "
+					+ "descripcion = ?, " 
+					+ "costo_prov_1 = ?, " 
+					+ "precio_lista = ? "  
+					+ " where cve_articulo = ?";
+			
+			try (Connection conexionBD = this.getConexionBD()){
+				try (PreparedStatement stmt = conexionBD.prepareStatement(SQL_Update_Articulo)){
+					stmt.setString(1, articulo.getDescripcion());
+					stmt.setFloat(2, articulo.getCostoProv1());
+					stmt.setFloat(3, articulo.getPrecioLista());
+					
+					stmt.setString(4, articulo.getCveArticulo());
+					
+					numAfectacionesBD = stmt.executeUpdate();
+				}
+			}
+			return numAfectacionesBD;
+		}
+		
 		public int actualizarArticulo(Articulo articulo) throws SQLException {
 			int numAfectacionesBD = 0;
 			
@@ -375,6 +465,22 @@ public class GestorBD_J17 {
 			try (Connection conexionBD = this.getConexionBD()){
 				try (Statement stmt = conexionBD.createStatement()){
 					numAfectacionesBD = stmt.executeUpdate(SQL_Update_Articulo);
+				}
+			}
+			return numAfectacionesBD;
+		}
+		
+		public int eliminarArticuloPstmt(Articulo articulo) throws SQLException {
+			
+			int numAfectacionesBD = 0;
+			
+			String SQL_Delete_Articulo = 
+					"Delete from articulo where cve_articulo = ?" ;
+			
+			try (Connection conexionBD = this.getConexionBD()){
+				try (PreparedStatement stmt = conexionBD.prepareStatement(SQL_Delete_Articulo)) {
+					stmt.setString(1, articulo.getCveArticulo());
+					numAfectacionesBD = stmt.executeUpdate();
 				}
 			}
 			return numAfectacionesBD;
